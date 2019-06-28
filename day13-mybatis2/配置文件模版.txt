@@ -1,0 +1,94 @@
+=======================================================
+sqlMapConfig.xml
+=======================文件头信息=========================
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<!-- MyBatis的全局配置文件 -->
+<configuration >
+	
+
+</configuration>
+
+=======================文件详细信息========================
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<!-- MyBatis的全局配置文件 -->
+<configuration >
+	<!-- 配置环境，可配置多个环境（比如：develop开发、test测试） -->
+	<environments default="develop">
+		<environment id="develop">
+			
+			<!-- 配置事务管理方式：JDBC/MANAGED
+			JDBC：将事务交给JDBC管理（推荐）
+			MANAGED：自己管理事务
+			  -->
+			<transactionManager type="JDBC"></transactionManager>
+			
+			<!-- 配置数据源，即连接池 JNDI/POOLED/UNPOOLED
+				JNDI：已过时
+				POOLED：使用连接池（推荐）
+				UNPOOLED：不使用连接池
+			 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatisdb?useUnicode=true&amp;characterEncoding=utf-8"/>
+				<property name="username" value="root"/>
+				<property name="password" value="root"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- 引入Mapper配置文件，可以配置多个 -->
+	<mappers>
+		<mapper resource="com/tedu/pojo/EmpMapper.xml"/>
+	</mappers>
+
+</configuration>
+
+=======================================================
+UserMapper.xml
+=======================文件头信息=========================
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace一般指定为当前文件的所在包路径+文件名
+	将来在程序中通过[ namespace + id ]定位到执行哪一条SQL语句]
+	并且namespace、id的值不能重复
+ -->
+<mapper namespace="com.tedu.pojo.EmpMapper">
+	<!-- 通过select、insert、update、delete标签声明要执行的SQL -->
+	
+</mapper>
+
+=======================文件详细信息========================
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace一般指定为当前文件的所在包路径+文件名
+	将来在程序中通过[ namespace + id ]定位到执行哪一条SQL语句]
+	并且namespace、id的值不能重复
+ -->
+<mapper namespace="com.tedu.pojo.EmpMapper">
+	<!-- 通过select、insert、update、delete标签声明要执行的SQL -->
+	<select id="findAll" resultType="com.tedu.pojo.Emp">
+		select * from emp
+	</select>
+	<!-- 
+	resultType：返回值类型，简单类型（例如：Integer，String，Emp等）
+		如果返回集合(List<Emp>)，只需配置集合中的元素类型即可！
+	resultMap：复杂对象结构（例如多表关联查询等），后面用到再讲解
+	 -->
+</mapper>
+
+
+

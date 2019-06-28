@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    
+<!-- MyBatis的全局配置文件 -->
+<configuration >
+    <!--引入jdbc.properties文件  -->
+    <properties resource="jdbc.properties"/>
+	<environments default="develop">
+		<environment id="develop">
+		    <!-- 配置事务管理方式 
+		    	type: JDBC/MANAGED
+		    	JDBC:将事务交给JDBC处理
+		    	MANAGED:自己管理事务
+		    -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 被指数据库连接池 
+				POOLED:使用连接池(数据源)
+				UNPOOLED:不使用连接池
+			-->
+			<dataSource type="POOLED">
+			<property name="driver" value="${jdbc.driver}"/>
+			<property name="url" value="${jdbc.url}"/>
+			<property name="username" value="${jdbc.username}"/>
+			<property name="password" value="${jdbc.password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/tedu/pojo/EmpMapper.xml"/>
+	</mappers>
+</configuration>

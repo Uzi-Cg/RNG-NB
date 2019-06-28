@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+	namespace一般指定为当前文件的所在包路径+文件名
+	将来在程序中通过[ namespace + id ]定位到执行哪一条SQL语句
+ -->
+<mapper namespace="com.tedu.pojo.EmpMapper">
+	<!-- 通过select、insert、update、delete标签声明要执行的SQL -->
+	<select id="findAll" resultType="com.tedu.pojo.Emp">
+		select * from emp
+	</select>
+	<!--新增员工 -->
+	<insert id="insert">
+		insert into emp(name,job,salary) values('韩少云','CEO',6000)
+	</insert>
+	<update id="update">
+		update emp set salary=5000 where name='韩少云'
+		<!--插入 -->
+	</update>
+	<insert id="insert2">
+		insert into emp values(null,#{name},#{job},#{salary})
+
+	</insert>
+
+	<!--删除员工信息 -->
+	<delete id="delete2">
+		delete from emp where name=#{"刘沛霞"}
+	</delete>
+	<!--查询薪资在15000~18000之间的员工信息 -->
+	<select id="findAll3" resultType="com.tedu.pojo.Emp">
+		select*from emp where salary between #{minSal} and #{maxSal}
+
+	</select>
+	<!--查询员工信息 //如果传递了name参数 则根据name模糊查询 //如果没有传递name参数 则查询所有员工查询 -->
+	<select id="findAll5" resultType="com.tedu.pojo.Emp">
+		select* from emp
+
+		<if test="name !=null">
+			where name like '%${name}%'
+		</if>
+	</select>
+	<!--接受minSal和maxSal 两个参数 如果两个参数都为null ,则查询所有员工 如果两个参数都不为null ,则查询指定区间的员工 
+		如果minSal！=null,则查询薪资大于 minSal的员工 如果maxSal！=null,则查询薪资小于 maxSal的员工 -->
+	<select id="findAll6" resultType="com.tedu.pojo.Emp">
+		select*from emp;
+		<where>
+		    <if test="minSal !=null">
+				sal>#{minSal}
+			</if>
+			<if test="maxSal !=null">
+				and sal<#{maxSal}
+			</if>
+		</where>
+	</select>
+	<!-- 修改员工信息 如果传递了name或job 或salary 则修改这些列 否则就不修改 -->
+	<update id="update3">
+		update emp
+		<set>
+			<if test="name !=null">
+				name=#{name},
+			</if>
+			<if test="job !=null">
+				job=#{job},
+			</if>
+			<if test="salary!=null">
+				salary=#{salary}
+			</if>
+		</set>
+	</update>
+	<!--批量删除员工信息  
+      delete from emp
+      where id in(1,3,5,7);
+      -->
+      <update id="delteByIds">
+      delete from emp
+      where id in
+      <foreach collection="array" item="ids" open="(" seperator=","
+      close=")" >
+      <!-- ids 接收参数的变量  表示一个数组 -->
+      #{ids}
+      </foreach>
+      </update>
+      
+	<!-- resultType：返回值类型，简单类型（例如：Integer，String，Emp等） 如果返回集合(List<Emp>)，只需配置集合中的元素类型即可！ 
+		resultMap：复杂对象结构（例如多表关联查询等），后面用到再讲解 -->
+</mapper>
